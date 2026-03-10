@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cart Checkout Page</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+        /* Background formating*/
+        body {
+            background: url('images/background.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+        .full-height {
+            height: 100vh;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        /* Header h1 and h2 styles */ 
+        h1 {
+            margin: 10px 0;
+            font-size: 2.5rem; 
+            font-weight: bold; 
+        }
+        h2 {
+            margin: 10px 0;
+            font-size: 1.5rem; 
+            
+        }
+        /* Green border around Total price */
+        #final_price {
+            border: 5px solid #073a09;
+            padding: 5px 10px;
+        }
+        /* Bootstrap button colour override */
+        .btn-primary,
+        .btn-primary:active,
+        .btn-primary:focus,
+        .btn-primary:hover {
+            background-color: #b30000;
+            border-color: #b30000; 
+            box-shadow: none;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Checkout</h1>
+        <div class="mt-4">
+            <h2 class="mx-auto" id="cart_items"></h2>
+            <h2 class="mx-auto" style="width: 200px;" id="final_price">Total price: </h2>
+        </div>
+        <!--Form to enter Name and Email address-->
+        <form id="checkoutForm">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" class="form-control" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">E-mail:</label>
+                <input type="email" class="form-control" id="email" name="email" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Submit</button> <!--Submit button-->
+        </form>
+    </div>
+
+   <!-- Bootstrap JS and dependencies -->
+   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXK4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJTI5xjkG29kjs8Kfm51WcGHIr3hEBv1HKpaTwkFfH3d1lfz7" crossorigin="anonymous"></script>
+   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+d1tWVfQBLrZ+4fE/cjqD/2c3u7pbbmST6KpGmJgnDsp1fLJ4" crossorigin="anonymous"></script>
+  
+    
+</body>
+</html>
+
+<!-- Javascript methods-->
+<script>
+    //Validating the form, text fields are not empty
+    document.getElementById("checkoutForm").addEventListener("submit", function(event) {
+event.preventDefault(); // Prevent the form from submitting normally
+const name = document.getElementById("name").value.trim(); // Get the value of name input and trim whitespace
+const email = document.getElementById("email").value.trim(); // Get the value of email input and trim whitespace
+
+// Check if name and email fields are not empty
+if (name === "" || email === "") {
+    alert("Please fill in all fields."); // Display an alert if any field is empty
+} else {
+    // Validate email format
+    if (validateEmail(email)) {
+        alert("Thank you for shopping, " + name + "!");
+        // If all fields are filled and email is valid, you can submit the form here if needed
+        // document.getElementById("checkoutForm").submit(); // Uncomment this line to submit the form
+    } else {
+        alert("Please enter a valid email address.");
+    }
+}
+});
+
+// Function to validate email format
+function validateEmail(email) {
+const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+return emailPattern.test(email);
+}
+
+
+    // Adding cart items and total price from localStorage
+    let cost_allItems = 0;
+    for (let i = 0; i < localStorage.length; i++) {
+        let product = localStorage.key(i);
+        let content = JSON.parse(localStorage.getItem(product));
+        let total_cost = content.quan * content.p;
+        cost_allItems += total_cost;
+        if (content.quan > 0) {
+            document.getElementById("cart_items").innerHTML += product + " x " + content.quan + " = " + total_cost + "<br>";
+        }
+    }
+    document.getElementById("final_price").innerHTML = "Total price: " + cost_allItems;
+</script>

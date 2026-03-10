@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details</title>
+    <style>
+        body {
+            background: url('images/background.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+        /* General styling for the body to set font and background */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            
+        }
+
+        /* Styling for the container to center content vertically and horizontally */
+        .centerContent {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        /* Styling for headers */
+        h1, h2 {
+            margin: 10px 0;
+            color: #333;
+        }
+
+        /* Styling for the product image */
+        img {
+            margin-top: 20px;
+            border-radius: 5px;
+        }
+
+        /* Styling for the quantity dropdown */
+        select {
+            margin-top: 20px;
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+
+        /*Styling for the button */
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #b30000;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Button hover effect */
+        button:hover {
+            background-color: #b30000;
+        }
+
+        /* Styling for the back link */
+        a {
+            margin-top: 20px;
+            color: #b30000;
+            text-decoration: none;
+        }
+        .btn-primary {
+            background-color: #b30000;
+            border-color: #b30000;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="centerContent">
+        <!-- Displaying product details dynamically using template literals -->
+        <h1 id="product">ITEM: <%= myMessage %></h1>
+        <h2>Country of origin: <%= model %></h2>
+        <h2 id="price"> <%=myPrice  %></h2>
+        <img src="images/<%= myImage%>" width="200px" alt="Product Image">
+        <br>
+        <!-- Dropdown for selectin' product quantity -->
+        <select id="quantity" name="quantity">
+            <option value="0">0</option>
+            <option value="1" selected>1</option>
+            <option value="2">2</option>
+            <option value="5">5</option>
+            <option value="10">10</option>
+        </select>
+        <br>
+        <!-- Button to add the product to the cart -->
+        <button class="btn btn-primary btn-block" type="submit" onclick="addToCart()">Add to cart</button>
+        <br>
+        <!-- Link to go back to the home page -->
+        <a href="home">Back to Home page</a>
+    </div>
+
+    
+</body>
+</html>
+
+<script>
+    /**
+     * Function to add the selected product and quantity to the cart.
+     * Retrieves product details from the DOM and stores them in localStorage.
+     */
+    function addToCart() {
+        // Get product name from the header element
+        let product = document.getElementById("product").innerHTML;
+        // Get selected quantity from the dropdown
+        let quantity = document.getElementById("quantity").value;
+        // Get price from the header element
+        let price = document.getElementById("price").innerHTML;
+        // Create an object with price and quantity
+        let quan_price = {p: price, quan: quantity};
+
+        // Store the object in localStorage with product name as key
+        localStorage.setItem(product, JSON.stringify(quan_price));
+    }
+</script>
